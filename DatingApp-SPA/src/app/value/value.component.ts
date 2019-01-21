@@ -1,6 +1,8 @@
-import { Component, ChangeDetectionStrategy, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 interface IValue {
   name: string;
@@ -15,25 +17,23 @@ interface IValue {
 })
 export class ValueComponent implements OnInit {
   private ENV: string;
-  values: IValue[];
+  values$: Observable<IValue[]>;
 
   constructor(
-    private http: HttpClient,
-    private cdr: ChangeDetectorRef) {
+    private http: HttpClient) {
     this.ENV = environment.API;
   }
 
   ngOnInit(): void {
-    this.getValues();
+    this.values$ = this.getValues();
   }
 
-  getValues(): void {
-    this.http.get(`${this.ENV}/values`).subscribe(
-      (res: IValue[]) => {
-        this.values = res;
-        this.cdr.markForCheck();
-      },
-      err => console.log(err)
+  getValues(): Observable<IValue[]> {
+    return <Observable<IValue[]>>this.http.get(`${this.ENV}/values`).pipe(
+      catchError(err => {
+        console.log(err);
+        return of(err);
+      })
     );
   }
 
