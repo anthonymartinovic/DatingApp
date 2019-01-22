@@ -3,11 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-
-interface IValue {
-  name: string;
-  id: number;
-}
+import { IValue } from '../_models/Value';
 
 @Component({
   selector: 'app-value',
