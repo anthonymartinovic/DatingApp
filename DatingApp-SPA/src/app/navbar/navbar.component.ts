@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { userLoginFormModel } from '../_models/User';
 import { AuthService } from '../_core/api/auth.service';
 import { first } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -13,6 +14,7 @@ import { first } from 'rxjs/operators';
 export class NavbarComponent implements OnInit {
 
   loginForm: FormGroup;
+  isLoggedIn$: Observable<boolean>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -20,6 +22,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group(userLoginFormModel);
+    this.isLoggedIn$ = this.authService.isLoggedIn();
   }
 
   login() {
@@ -29,6 +32,10 @@ export class NavbarComponent implements OnInit {
       () => console.log('success'),
       () => console.log('error')
     );
+  }
+
+  logout() {
+    this.authService.logout();
   }
 
 }

@@ -1,3 +1,5 @@
+<ng-container *ngTemplateOutlet="navbar; context: { isLoggedIn: isLoggedIn$ | async }"></ng-container>
+<ng-template #navbar let-isLoggedIn="isLoggedIn">
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
 
   <a class="navbar-brand" href="#">Dating App</a>
@@ -12,12 +14,25 @@
     <li class="nav-item">
       <a class="nav-link" href="#">Messages</a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" href="javascript:" (click)="logout()">Logout</a>
+    </li>
   </ul>
 
-  <form [formGroup]="loginForm" (ngSubmit)="login()" class="form-inline my-2 my-lg-0">
-    <input formControlName="username" class="form-control mr-sm-2" type="text" placeholder="Username">
-    <input formControlName="password" class="form-control mr-sm-2" type="password" placeholder="Password">
+  <div *ngIf="isLoggedIn" class="dropdown">
+    <a class="dropdown-toggle text-light">Welcome User</a>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="#"><i class="fa fa-user"></i>Edit Profile</a>
+      <div class="dropdown-divider"></div>
+      <a class="dropdown-item" href="#"><i class="fa fa-sign-out"></i>Logout</a>
+    </div>
+  </div>
+
+  <form *ngIf="!isLoggedIn" [formGroup]="loginForm" (ngSubmit)="login()" class="form-inline my-2 my-lg-0">
+    <input formControlName="username" class="form-control mr-sm-2" type="text" placeholder="Username" required>
+    <input formControlName="password" class="form-control mr-sm-2" type="password" placeholder="Password" required>
     <button class="btn btn-success my-2 my-sm-0" type="submit" [disabled]="loginForm.invalid">Login</button>
   </form>
 
 </nav>
+</ng-template>

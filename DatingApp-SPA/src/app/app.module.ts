@@ -4,8 +4,8 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ValueModule } from './value/value.module';
 import { NavbarModule } from './navbar/navbar.module';
+import { HomeModule } from './home/home.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -13,8 +13,8 @@ import { NavbarModule } from './navbar/navbar.module';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ValueModule,
-    NavbarModule
+    NavbarModule,
+    HomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
